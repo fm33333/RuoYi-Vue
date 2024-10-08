@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.system.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,11 +42,15 @@ public class TestController extends BaseController
         users.put(2, new UserEntity(2, "ry", "admin123", "15666666666"));
     }
 
+    @Autowired
+    private ISysUserService sysUserService;
+
     @ApiOperation("获取用户列表")
     @GetMapping("/list")
-    public R<List<UserEntity>> userList()
+    public R<List<SysUser>> userList()
     {
-        List<UserEntity> userList = new ArrayList<UserEntity>(users.values());
+//        List<UserEntity> userList = new ArrayList<UserEntity>(users.values());
+        List<SysUser> userList = sysUserService.selectUserList(new SysUser());
         return R.ok(userList);
     }
 

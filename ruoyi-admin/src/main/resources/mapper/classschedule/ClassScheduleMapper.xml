@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.classschedule.mapper.ClassScheduleMapper">
+    
+    <resultMap type="ClassSchedule" id="ClassScheduleResult">
+        <result property="id"    column="id"    />
+        <result property="singleDoubleWeek"    column="single_double_week"    />
+        <result property="classId"    column="class_id"    />
+        <result property="classHourId"    column="class_hour_id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="subjectId"    column="subject_id"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectClassScheduleVo">
+        select id, single_double_week, class_id, class_hour_id, teacher_id, subject_id, modify_time, create_time, deleted from class_schedule
+    </sql>
+
+    <select id="selectClassScheduleList" parameterType="ClassSchedule" resultMap="ClassScheduleResult">
+        <include refid="selectClassScheduleVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="singleDoubleWeek != null "> and single_double_week = #{singleDoubleWeek}</if>
+            <if test="classId != null  and classId != ''"> and class_id = #{classId}</if>
+            <if test="classHourId != null  and classHourId != ''"> and class_hour_id = #{classHourId}</if>
+            <if test="teacherId != null  and teacherId != ''"> and teacher_id like concat('%', #{teacherId}, '%')</if>
+            <if test="subjectId != null  and subjectId != ''"> and subject_id like concat('%', #{subjectId}, '%')</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectClassScheduleById" parameterType="Integer" resultMap="ClassScheduleResult">
+        <include refid="selectClassScheduleVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertClassSchedule" parameterType="ClassSchedule" useGeneratedKeys="true" keyProperty="id">
+        insert into class_schedule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="singleDoubleWeek != null">single_double_week,</if>
+            <if test="classId != null and classId != ''">class_id,</if>
+            <if test="classHourId != null and classHourId != ''">class_hour_id,</if>
+            <if test="teacherId != null and teacherId != ''">teacher_id,</if>
+            <if test="subjectId != null and subjectId != ''">subject_id,</if>
+            <if test="modifyTime != null">modify_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="singleDoubleWeek != null">#{singleDoubleWeek},</if>
+            <if test="classId != null and classId != ''">#{classId},</if>
+            <if test="classHourId != null and classHourId != ''">#{classHourId},</if>
+            <if test="teacherId != null and teacherId != ''">#{teacherId},</if>
+            <if test="subjectId != null and subjectId != ''">#{subjectId},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateClassSchedule" parameterType="ClassSchedule">
+        update class_schedule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="singleDoubleWeek != null">single_double_week = #{singleDoubleWeek},</if>
+            <if test="classId != null and classId != ''">class_id = #{classId},</if>
+            <if test="classHourId != null and classHourId != ''">class_hour_id = #{classHourId},</if>
+            <if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+            <if test="subjectId != null and subjectId != ''">subject_id = #{subjectId},</if>
+<!--            <if test="modifyTime != null">modify_time = #{modifyTime},</if>-->
+<!--            <if test="createTime != null">create_time = #{createTime},</if>-->
+            <if test="deleted != null">deleted = #{deleted},</if>
+            modify_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClassScheduleById" parameterType="Integer">
+        delete from class_schedule where id = #{id}
+    </delete>
+
+    <delete id="deleteClassScheduleByIds" parameterType="String">
+        delete from class_schedule where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
