@@ -22,11 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectClassScheduleList" parameterType="ClassSchedule" resultMap="ClassScheduleResult">
         <include refid="selectClassScheduleVo"/>
-        <where>  
+        <where>
             <if test="id != null "> and id = #{id}</if>
             <if test="singleDoubleWeek != null "> and single_double_week = #{singleDoubleWeek}</if>
-            <if test="classId != null  and classId != ''"> and class_id = #{classId}</if>
-            <if test="classHourId != null  and classHourId != ''"> and class_hour_id = #{classHourId}</if>
+            <if test="classId != null  and classId != ''"> and class_id like concat('%', #{classId}, '%')</if>
+            <if test="classHourId != null  and classHourId != ''"> and class_hour_id like concat('%', #{classHourId}, '%')</if>
             <if test="teacherId != null  and teacherId != ''"> and teacher_id like concat('%', #{teacherId}, '%')</if>
             <if test="subjectId != null  and subjectId != ''"> and subject_id like concat('%', #{subjectId}, '%')</if>
             <if test="deleted != null "> and deleted = #{deleted}</if>
@@ -36,6 +36,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectClassScheduleById" parameterType="Integer" resultMap="ClassScheduleResult">
         <include refid="selectClassScheduleVo"/>
         where id = #{id}
+    </select>
+
+    <select id="getById" parameterType="Integer" resultMap="ClassScheduleResult">
+        <include refid="selectClassScheduleVo"/>
+        where deleted = 0
+          and id = #{id}
+    </select>
+
+    <select id="getByClassHourId" resultMap="ClassScheduleResult">
+        <include refid="selectClassScheduleVo"/>
+        where deleted = 0
+          and class_hour_id = #{classHourId}
+    </select>
+
+    <select id="getByClassId" resultMap="ClassScheduleResult">
+        <include refid="selectClassScheduleVo"/>
+        where deleted = 0
+          and class_id = #{classId}
     </select>
 
     <insert id="insertClassSchedule" parameterType="ClassSchedule" useGeneratedKeys="true" keyProperty="id">
@@ -70,10 +88,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="classHourId != null and classHourId != ''">class_hour_id = #{classHourId},</if>
             <if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
             <if test="subjectId != null and subjectId != ''">subject_id = #{subjectId},</if>
-<!--            <if test="modifyTime != null">modify_time = #{modifyTime},</if>-->
-<!--            <if test="createTime != null">create_time = #{createTime},</if>-->
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
             <if test="deleted != null">deleted = #{deleted},</if>
-            modify_time = sysdate()
         </trim>
         where id = #{id}
     </update>

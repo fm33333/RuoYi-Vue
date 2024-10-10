@@ -6,43 +6,43 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fxcourse.common.annotation.Excel;
 import com.fxcourse.common.core.domain.BaseEntity;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * 课表对象 class_schedule
+ * fx课表对象 class_schedule
  * 
  * @author fming
- * @date 2024-10-07
+ * @date 2024-10-09
  */
 public class ClassSchedule extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 课程id */
-    @Excel(name = "课程id")
     private Integer id;
 
-    /** 是否单双周课程（0：否，1：单周，2：双周） */
-    @Excel(name = "单双周课程", readConverterExp = "0=否,1=单周,2=双周")
+    /** 单双周课程 */
+    @Excel(name = "单双周课程")
     private Integer singleDoubleWeek;
 
-    /** 班级id */
-    @Excel(name = "班级id")
+    /** 班级 */
+    @Excel(name = "班级")
     private String classId;
 
-    /** 课时id */
-    @Excel(name = "课时id")
+    /** 课时 */
+    @Excel(name = "课时")
     private String classHourId;
 
-    /** 老师id */
-    @Excel(name = "老师id")
+    /** 老师 */
+    @Excel(name = "老师")
     private String teacherId;
 
-    /** 科目id */
-    @Excel(name = "科目id")
+    /** 科目 */
+    @Excel(name = "科目")
     private String subjectId;
 
     /** 修改时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "修改时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifyTime;
 
     /** 是否删除 */

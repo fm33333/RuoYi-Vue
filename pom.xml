@@ -182,6 +182,12 @@
                 <version>${fxcourse.version}</version>
             </dependency>
 
+            <!-- fx课表管理-->
+            <dependency>
+                <groupId>com.fxcourse</groupId>
+                <artifactId>fxcourse-classschedule</artifactId>
+                <version>${fxcourse.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -192,6 +198,7 @@
         <module>fxcourse-quartz</module>
         <module>fxcourse-generator</module>
         <module>fxcourse-common</module>
+        <module>fxcourse-classschedule</module>
     </modules>
     <packaging>pom</packaging>
 

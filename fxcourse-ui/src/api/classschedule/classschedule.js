@@ -9,6 +9,15 @@ export function listClassschedule(query) {
   })
 }
 
+// 查询可换课的课表列表
+export function listChangeClassschedule(query) {
+  return request({
+    url: '/classschedule/classschedule/listChange',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询课表详细
 export function getClassschedule(id) {
   return request({

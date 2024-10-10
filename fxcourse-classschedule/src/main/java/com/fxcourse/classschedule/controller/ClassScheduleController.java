@@ -22,10 +22,10 @@ import com.fxcourse.common.utils.poi.ExcelUtil;
 import com.fxcourse.common.core.page.TableDataInfo;
 
 /**
- * 课表Controller
+ * fx课表Controller
  * 
  * @author fming
- * @date 2024-10-07
+ * @date 2024-10-09
  */
 @RestController
 @RequestMapping("/classschedule/classschedule")
@@ -35,7 +35,7 @@ public class ClassScheduleController extends BaseController
     private IClassScheduleService classScheduleService;
 
     /**
-     * 查询课表列表
+     * 查询fx课表列表
      */
     @PreAuthorize("@ss.hasPermi('classschedule:classschedule:list')")
     @GetMapping("/list")
@@ -47,20 +47,33 @@ public class ClassScheduleController extends BaseController
     }
 
     /**
-     * 导出课表列表
+     * 查询可换课列表
+     */
+
+    @PreAuthorize("@ss.hasPermi('classschedule:classschedule:querychange')")
+    @GetMapping("/listChange")
+    public TableDataInfo listChange(ClassSchedule classSchedule)
+    {
+        startPage();
+        List<ClassSchedule> list = classScheduleService.getChangeScheduleList(classSchedule.getId());
+        return getDataTable(list);
+    }
+
+    /**
+     * 导出fx课表列表
      */
     @PreAuthorize("@ss.hasPermi('classschedule:classschedule:export')")
-    @Log(title = "课表", businessType = BusinessType.EXPORT)
+    @Log(title = "fx课表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ClassSchedule classSchedule)
     {
         List<ClassSchedule> list = classScheduleService.selectClassScheduleList(classSchedule);
         ExcelUtil<ClassSchedule> util = new ExcelUtil<ClassSchedule>(ClassSchedule.class);
-        util.exportExcel(response, list, "课表数据");
+        util.exportExcel(response, list, "fx课表数据");
     }
 
     /**
-     * 获取课表详细信息
+     * 获取fx课表详细信息
      */
     @PreAuthorize("@ss.hasPermi('classschedule:classschedule:query')")
     @GetMapping(value = "/{id}")
@@ -70,10 +83,10 @@ public class ClassScheduleController extends BaseController
     }
 
     /**
-     * 新增课表
+     * 新增fx课表
      */
     @PreAuthorize("@ss.hasPermi('classschedule:classschedule:add')")
-    @Log(title = "课表", businessType = BusinessType.INSERT)
+    @Log(title = "fx课表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ClassSchedule classSchedule)
     {
@@ -81,10 +94,10 @@ public class ClassScheduleController extends BaseController
     }
 
     /**
-     * 修改课表
+     * 修改fx课表
      */
     @PreAuthorize("@ss.hasPermi('classschedule:classschedule:edit')")
-    @Log(title = "课表", businessType = BusinessType.UPDATE)
+    @Log(title = "fx课表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ClassSchedule classSchedule)
     {
@@ -92,10 +105,10 @@ public class ClassScheduleController extends BaseController
     }
 
     /**
-     * 删除课表
+     * 删除fx课表
      */
     @PreAuthorize("@ss.hasPermi('classschedule:classschedule:remove')")
-    @Log(title = "课表", businessType = BusinessType.DELETE)
+    @Log(title = "fx课表", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Integer[] ids)
     {
